@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-buttons slot="primary">
       <ion-button routerLink="/places/tabs/offers/new" routerLinkActive="router-link-active" >
         <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -15,16 +18,35 @@
     <ion-row>
       <ion-col size="12">
         <ion-list>
-          <ion-item *ngFor="let place of loadedPlace" [routerLink]="['/','places','tabs','offers',place.id]" routerLinkActive="router-link-active" >
-            <ion-thumbnail>
-              <img [src]="place.imageUrl" />
-            </ion-thumbnail>
-            
-            <ion-label>
-                <h2>{{place.title}}</h2>
-              <p>{{place.description}}</p>
-            </ion-label>
-          </ion-item>
+          
+            <ion-item-sliding *ngFor="let place of loadedPlace"  #slidingElement>
+                <ion-item  >
+                  <ion-thumbnail>
+                    <img [src]="place.imageUrl" />
+                  </ion-thumbnail>
+                  
+                  <ion-label>
+                      <h2>{{place.title}}</h2>
+                    <p>{{place.description}}</p>
+                  </ion-label>
+                </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option (click)="onEdit(place.id,slidingElement)">
+                  <ion-button>
+                    <ion-icon slot="icon-only" name="create"></ion-icon>
+                  </ion-button>
+                </ion-item-option>
+                
+                  <ion-item-option  (click)="onDelete(place.id,slidingElement)">
+                      <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                
+              </ion-item-options>
+          
+              
+            </ion-item-sliding>
+          
+          
         </ion-list>
       </ion-col>
     </ion-row>
