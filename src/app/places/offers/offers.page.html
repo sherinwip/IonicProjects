@@ -20,16 +20,7 @@
         <ion-list>
           
             <ion-item-sliding *ngFor="let place of loadedPlace"  #slidingElement>
-                <ion-item  >
-                  <ion-thumbnail>
-                    <img [src]="place.imageUrl" />
-                  </ion-thumbnail>
-                  
-                  <ion-label>
-                      <h2>{{place.title}}</h2>
-                    <p>{{place.description}}</p>
-                  </ion-label>
-                </ion-item>
+                <offer-item [place]=place></offer-item>
               <ion-item-options side="end">
                 <ion-item-option (click)="onEdit(place.id,slidingElement)">
                   <ion-button>

@@ -12,6 +12,7 @@ import { PlacesService } from '../../places.service';
 })
 export class PlaceDetailPage implements OnInit {
   place:Place;
+  selectedMode:string;
 
   constructor(private router:Router,private navCtrl:NavController,private modalCtrl:ModalController,
     private placeService:PlacesService,
@@ -57,7 +58,7 @@ export class PlaceDetailPage implements OnInit {
 }
 
 openBookingModal(mode:'select'|'random'){
-  this.modalCtrl.create({component:CreateBookingComponent,componentProps:{selectedPlace:this.place}}).then(
+  this.modalCtrl.create({component:CreateBookingComponent,componentProps:{selectedPlace:this.place,selectedMode:mode}}).then(
     modalEl => {
       modalEl.present();
       return modalEl.onDidDismiss();
