@@ -16,21 +16,29 @@
       <ion-label>Bookable Places</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-grid>
+  <ion-grid *ngIf="relevantPlaces.length <= 0">
+    <ion-row>
+      <ion-col>
+       <p> No Bookable place at this moment Please come back soon !!</p>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf= "relevantPlaces.length > 0">
     <ion-row>
       <ion-col  text-center>
 
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{loadedPlace[0].title}}</ion-card-title>
-            <ion-card-subtitle>{{loadedPlace[0].price | currency}} / Per Night</ion-card-subtitle>
+            <ion-card-title>{{relevantPlaces[0].title}}</ion-card-title>
+            <ion-card-subtitle>{{relevantPlaces[0].price | currency}} / Per Night</ion-card-subtitle>
           </ion-card-header>
-          <ion-img [src]="loadedPlace[0].imageUrl"></ion-img>
+          <ion-img [src]="relevantPlaces[0].imageUrl"></ion-img>
           <ion-card-content>
-            <p>{{loadedPlace[0].description}}</p>
+            <p>{{relevantPlaces[0].description}}</p>
           </ion-card-content>
           <div  class="ion-text-right">
-            <ion-button  fill="clear" [routerLink]="['/','places','tabs','discover',loadedPlace[0].id]"  >
+            <ion-button  fill="clear" [routerLink]="['/','places','tabs','discover',relevantPlaces[0].id]"  >
               More
             </ion-button>
           </div>
