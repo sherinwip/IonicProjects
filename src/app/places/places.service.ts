@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Place } from './place.model';
 import { AuthService } from '../auth/auth.service';
 import {take,map,tap,delay} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ private _places=new BehaviorSubject<Place[]>(
 get places(){
   return this._places.asObservable();
 }
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private http:HttpClient) { }
 
   getPlaces(id:string){
     return this.places.pipe(take(1),map(places => {
@@ -39,10 +40,15 @@ get places(){
 
   addPlaces(title:string,description:string,price:number,dateFrom:Date,dateTo:Date){
     const newPlace = new Place(Math.random.toString(),title,description,'https://teja10.kuikr.com///r1/20160627/ak_865_1100151679-1467045517_700x700.jpeg',price,dateFrom,dateTo,this.authService.getUserId);
-    return this.places.pipe(take(1),delay(1000),tap(places => {
+    return this.http.post('https://sherinbnb.firebaseio.com/offered-paces.json',{...newPlace,id:null}).pipe(tap(
+      resultData =>{
+        console.log(resultData);
+      }
+    ));
+    /* return this.places.pipe(take(1),delay(1000),tap(places => {
       this._places.next(places.concat(newPlace));
       })
-      );
+      ); */
 
   }
 

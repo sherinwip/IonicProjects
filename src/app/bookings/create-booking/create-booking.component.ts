@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { Place } from '../../places/place.model';
 import { NgForm } from '@angular/forms';
+import { BookingsService } from '../bookings.service';
 
 @Component({
   selector: 'app-create-booking',
@@ -15,7 +16,7 @@ export class CreateBookingComponent implements OnInit {
   endDate:string;
   @ViewChild('f',{static:true}) form: NgForm;
 
-  constructor(private modalCtrl:ModalController) { }
+  constructor(private modalCtrl:ModalController,private bookingService:BookingsService,private loadingCtrl:LoadingController) { }
 
   ngOnInit() {
     const availableFrom =  new Date(this.selectedPlace.dateFrom);
@@ -46,6 +47,26 @@ this.modalCtrl.dismiss({bookingData:{
     const startDate = new Date (this.form.value['dateFrom']);
     const endDate = new Date (this.form.value['dateTo']);
     return endDate > startDate;
+
+  }
+
+  cancelBooking(){
+
+  }
+
+  addBooking(){
+    this.loadingCtrl.create({
+      message:'Confirming Booking..'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.bookingService.addBooking(this.selectedPlace.id,this.selectedPlace.title,this.selectedPlace.imageUrl,this.form.value['name']
+      ,this.form.value['guestNumber'],
+      this.form.value['dateFrom'],
+      this.form.value['dateTo']
+      ).subscribe(() =>{
+        this.loadingCtrl.dismiss(); 
+      })
+    });
 
   }
 
